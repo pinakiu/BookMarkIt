@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -17,8 +18,7 @@ import java.util.UUID;
 public class UserBook {
     @Id
     @GeneratedValue
-    @Builder.Default
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -36,8 +36,8 @@ public class UserBook {
 
     private String review;
 
-    private String addedAt;
+    private LocalDateTime addedAt;
 
-    private String updatedAt;
+    private LocalDateTime updatedAt;
 
 }

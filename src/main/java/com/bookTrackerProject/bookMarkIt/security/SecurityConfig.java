@@ -15,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,17 +23,21 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private JwtFilter jwtFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http.csrf(AbstractHttpConfigurer::disable)//disable csrf
             .authorizeHttpRequests(request -> request
-                    .requestMatchers("login", "register").permitAll() //adding this means register/login no need to send basic auth to access
+                    .requestMatchers("/login", "/register").permitAll() //adding this means register/login no need to send basic auth to access
                     .anyRequest().authenticated()) //means every single request is authenticated
 //            .formLogin(Customizer.withDefaults()) //ensure default spring login pages shows
             .httpBasic(Customizer.withDefaults()) //actually lets username and password be applied
             .sessionManagement(session ->
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //dont create sessions, act like every request is the first
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
 
     }

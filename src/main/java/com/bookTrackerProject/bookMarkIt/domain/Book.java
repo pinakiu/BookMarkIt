@@ -1,9 +1,6 @@
 package com.bookTrackerProject.bookMarkIt.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,13 +17,17 @@ import java.util.UUID;
 public class Book {
     @Id
     @GeneratedValue
-    @Builder.Default
-    private UUID id = UUID.randomUUID();
+    @Column(name = "market_id")
+    private UUID marketId;
 
+    @Column(name = "google_books_id")
     private String googleBooksId;
     private String title;
     private String author;
+    @Column(name = "cover_url")
     private String coverUrl;
     private String isbn;
     private String description;
+    @Column(name = "cover_url_backup")
+    private String coverUrlBackup;
 }
