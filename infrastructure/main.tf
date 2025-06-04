@@ -4,7 +4,7 @@ provider "aws" {
 
 # Template to inject DB values into user_data
 data "template_file" "setup_backend" {
-  template = file("${path.module}/scripts/setup-backend-template.sh")
+  template = file("${path.module}/scripts/setup-backend.sh")
 
   vars = {
     db_endpoint = aws_db_instance.bookmarkitdb.address
@@ -22,7 +22,7 @@ resource "aws_security_group" "allow-ec2" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["YOUR_PUBLIC_IP/32"] # Replace with your IP
+    cidr_blocks = ["23.120.206.148/32"] # curl ifconfig.me
   }
 
   ingress {
